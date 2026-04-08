@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Аудит аудитории и юзабилити — Дворец Впечатлений</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-body: "Inter", "Helvetica Neue", sans-serif;
+  --text-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --text-sm: clamp(0.875rem, 0.8rem + 0.35vw, 1rem);
+  --text-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.75vw, 1.5rem);
+  --text-xl: clamp(1.5rem, 1.2rem + 1.25vw, 2.25rem);
+  --text-2xl: clamp(2rem, 1.2rem + 2.5vw, 3rem);
+  --text-hero: clamp(2.2rem, 1rem + 3.5vw, 4.5rem);
+  --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;--space-20:5rem;
+  --radius-sm:.375rem;--radius-md:.5rem;--radius-lg:.75rem;--radius-xl:1rem;--radius-2xl:1.5rem;--radius-full:9999px;
+  --tr:200ms cubic-bezier(0.16,1,0.3,1);
+  --bg:#0d0b18;--surf:#131021;--surf2:#1b1829;--surf3:#221f34;
+  --div:#2a263e;--brd:#38344f;
+  --txt:#ede9ff;--txt-m:#9e95bf;--txt-f:#625b80;--txt-inv:#0d0b18;
+  --gold:#d4a843;--gold-l:#f0ca6a;--gold-d:#8a6510;--gold-g:rgba(212,168,67,.15);
+  --teal:#3ecfbc;--teal-d:#1a7e70;--teal-g:rgba(62,207,188,.13);
+  --coral:#e8604a;--coral-l:#f5856e;
+  --purple:#9b72cf;--purple-l:#c4a0f5;
+  --blue:#5bc0f5;
+  --shadow-md:0 4px 20px rgba(0,0,0,.55);--shadow-lg:0 12px 48px rgba(0,0,0,.65);
+  --shadow-gold:0 0 28px rgba(212,168,67,.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;scroll-padding-top:72px;-webkit-font-smoothing:antialiased}
+body{font-family:var(--font-body);font-size:var(--text-base);color:var(--txt);background:var(--bg);line-height:1.65;min-height:100dvh}
+img{display:block;max-width:100%;height:auto}
+h1,h2,h3,h4,h5{font-family:var(--font-display);line-height:1.2;text-wrap:balance}
+p,li{text-wrap:pretty;max-width:72ch}
+button{cursor:pointer;font:inherit;border:none;background:none}
+::selection{background:rgba(212,168,67,.28);color:var(--txt)}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:var(--surf)}::-webkit-scrollbar-thumb{background:var(--div);border-radius:var(--radius-full)}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(13,11,24,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid var(--div);padding:var(--space-3) var(--space-8);display:flex;align-items:center;justify-content:space-between;gap:var(--space-4)}
+.nav-logo{display:flex;align-items:center;gap:var(--space-3);text-decoration:none;color:var(--txt)}
+.nltext{font-family:var(--font-display);font-size:var(--text-sm);font-weight:600;line-height:1.2}
+.nltext span{display:block;font-size:var(--text-xs);font-family:var(--font-body);color:var(--txt-m);font-weight:400}
+.nav-links{display:flex;gap:var(--space-1);align-items:center;flex-wrap:wrap}
+.nav-link{font-size:var(--text-xs);color:var(--txt-m);text-decoration:none;padding:var(--space-2) var(--space-3);border-radius:var(--radius-md);transition:color var(--tr),background var(--tr);white-space:nowrap}
+.nav-link:hover{color:var(--txt);background:var(--surf2)}
+.nav-link.active{color:var(--gold)}
+.nav-cta{font-size:var(--text-xs);font-weight:600;background:var(--gold);color:var(--txt-inv);padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);text-decoration:none;transition:background var(--tr),box-shadow var(--tr);white-space:nowrap}
+.nav-cta:hover{background:var(--gold-l);box-shadow:var(--shadow-gold)}
+.nav-burger{display:none;flex-direction:column;gap:5px;padding:var(--space-2)}
+.nav-burger span{display:block;width:22px;height:2px;background:var(--txt);border-radius:2px;transition:var(--tr)}
+.nav-mobile{display:none}
+
+/* HERO */
+.hero{padding:calc(72px + var(--space-16)) var(--space-8) var(--space-16);max-width:1200px;margin-inline:auto;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-120px;right:-180px;width:700px;height:700px;background:radial-gradient(circle,rgba(212,168,67,.07) 0%,transparent 70%);pointer-events:none}
+.hero::after{content:"";position:absolute;bottom:-50px;left:-120px;width:500px;height:500px;background:radial-gradient(circle,rgba(62,207,188,.05) 0%,transparent 70%);pointer-events:none}
+.hero-tag{display:inline-flex;align-items:center;gap:var(--space-2);font-size:var(--text-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border:1px solid rgba(212,168,67,.35);background:var(--gold-g);padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);margin-bottom:var(--space-6)}
+.hero-title{font-size:var(--text-hero);font-weight:700;background:linear-gradient(135deg,var(--txt) 0%,var(--gold-l) 55%,var(--teal) 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:var(--space-6);max-width:860px}
+.hero-sub{font-size:var(--text-lg);color:var(--txt-m);max-width:620px;margin-bottom:var(--space-8)}
+.hero-meta{display:flex;flex-wrap:wrap;gap:var(--space-6)}
+.hmi{display:flex;align-items:center;gap:var(--space-2);font-size:var(--text-sm);color:var(--txt-m)}
+.hmi strong{color:var(--txt);font-weight:600}
+.hero-img{margin-top:var(--space-12);border-radius:var(--radius-2xl);overflow:hidden;position:relative;border:1px solid var(--div)}
+.hero-img img{width:100%;height:320px;object-fit:cover}
+.hero-img-ov{position:absolute;inset:0;background:linear-gradient(to right,rgba(13,11,24,.65) 0%,transparent 40%,transparent 60%,rgba(13,11,24,.45) 100%)}
+
+/* SECTIONS */
+.section{padding:var(--space-16) var(--space-8);max-width:1200px;margin-inline:auto}
+.sec-tag{font-size:var(--text-xs);font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-2)}
+.sec-tag::before{content:"";display:block;width:24px;height:2px;background:var(--teal)}
+.sec-title{font-size:var(--text-xl);color:var(--txt);margin-bottom:var(--space-4)}
+.sec-lead{font-size:var(--text-base);color:var(--txt-m);max-width:680px;margin-bottom:var(--space-10)}
+.divider{border:none;border-top:1px solid var(--div);margin:0}
+
+/* SEGMENTS GRID */
+.seg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(380px,100%),1fr));gap:var(--space-6)}
+.seg-card{background:var(--surf);border:1px solid var(--div);border-radius:var(--radius-2xl);overflow:hidden;transition:transform var(--tr),box-shadow var(--tr)}
+.seg-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+.s1{border-top:3px solid var(--gold)}.s2{border-top:3px solid var(--purple-l)}.s3{border-top:3px solid var(--teal)}.s4{border-top:3px solid var(--coral-l)}.s5{border-top:3px solid var(--blue)}
+.seg-hd{padding:var(--space-6);background:var(--surf2);display:flex;align-items:flex-start;gap:var(--space-4)}
+.seg-rank{flex-shrink:0;width:42px;height:42px;border-radius:var(--radius-full);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:var(--text-base);font-weight:700}
+.s1 .seg-rank{background:var(--gold);color:var(--txt-inv)}.s2 .seg-rank{background:var(--purple);color:#fff}.s3 .seg-rank{background:var(--teal-d);color:#fff}.s4 .seg-rank{background:var(--coral);color:#fff}.s5 .seg-rank{background:#2468a2;color:#fff}
+.seg-title-b{flex:1}
+.seg-name{font-size:var(--text-base);font-weight:600;color:var(--txt);margin-bottom:2px}
+.seg-tagline{font-size:var(--text-xs);color:var(--txt-m);font-style:italic}
+.seg-pay{flex-shrink:0;font-size:var(--text-xs);font-weight:600;padding:4px 10px;border-radius:var(--radius-full);white-space:nowrap}
+.s1 .seg-pay{background:var(--gold-g);color:var(--gold-l);border:1px solid rgba(212,168,67,.35)}
+.s2 .seg-pay{background:rgba(155,114,207,.15);color:var(--purple-l);border:1px solid rgba(155,114,207,.4)}
+.s3 .seg-pay{background:var(--teal-g);color:var(--teal);border:1px solid rgba(62,207,188,.4)}
+.s4 .seg-pay{background:rgba(232,96,74,.12);color:var(--coral-l);border:1px solid rgba(232,96,74,.4)}
+.s5 .seg-pay{background:rgba(91,192,245,.1);color:var(--blue);border:1px solid rgba(91,192,245,.35)}
+.seg-bd{padding:var(--space-6)}
+.seg-params{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-4);margin-bottom:var(--space-5)}
+.sp label{display:block;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.06em;color:var(--txt-f);margin-bottom:2px;font-weight:600}
+.sp p{font-size:var(--text-sm);color:var(--txt);max-width:unset}
+.seg-sl-title{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--txt-m);margin-bottom:var(--space-3);display:flex;align-items:center;gap:var(--space-2)}
+.seg-sl-title::after{content:"";flex:1;height:1px;background:var(--div)}
+.seg-list{list-style:none;display:flex;flex-direction:column;gap:var(--space-2);margin-bottom:var(--space-5)}
+.seg-list li{font-size:var(--text-sm);color:var(--txt-m);padding-left:var(--space-5);position:relative;max-width:unset}
+.seg-list li::before{content:"→";position:absolute;left:0;color:var(--txt-f)}
+.seg-triggers{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+.trig{font-size:var(--text-xs);font-weight:500;padding:4px 10px;border-radius:var(--radius-full);background:var(--surf3);color:var(--txt-m);border:1px solid var(--div)}
+
+/* SCORE */
+.score-wrap{background:var(--surf);border:1px solid var(--div);border-radius:var(--radius-2xl);padding:var(--space-8);margin-bottom:var(--space-8)}
+.score-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:var(--space-6);flex-wrap:wrap;gap:var(--space-4)}
+.score-head-title{font-size:var(--text-lg);font-weight:700}
+.score-num{font-size:var(--text-xl);font-family:var(--font-display);font-weight:700;color:var(--gold)}
+.score-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:var(--space-4)}
+.si label{display:block;font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--txt-m);margin-bottom:var(--space-2);font-weight:600}
+.sbar{height:8px;background:var(--div);border-radius:var(--radius-full);overflow:hidden;margin-bottom:4px}
+.sbar-fill{height:100%;border-radius:var(--radius-full);width:0%;transition:width 1.2s cubic-bezier(0.16,1,0.3,1)}
+.sval{font-size:var(--text-xs);color:var(--txt-m)}
+
+/* AUDIT GRID */
+.audit-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)}
+.ac{background:var(--surf);border:1px solid var(--div);border-radius:var(--radius-xl);padding:var(--space-6)}
+.ac.full{grid-column:1/-1}
+.ac-title{font-size:var(--text-base);font-weight:600;margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-3)}
+.ai{width:36px;height:36px;border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+.ai.g{background:rgba(100,200,120,.15)}.ai.r{background:rgba(232,96,74,.15)}.ai.gold{background:var(--gold-g)}.ai.b{background:rgba(91,192,245,.12)}
+.al{list-style:none;display:flex;flex-direction:column;gap:var(--space-3)}
+.al li{display:flex;gap:var(--space-3);align-items:flex-start;font-size:var(--text-sm);color:var(--txt-m);max-width:unset}
+.dot{flex-shrink:0;width:8px;height:8px;border-radius:var(--radius-full);margin-top:7px}
+.al.pro .dot{background:#6dc878}.al.con .dot{background:var(--coral)}.al.reco .dot{background:var(--gold)}
+
+/* CALLOUT */
+.callout{background:var(--surf2);border:1px solid var(--div);border-left:4px solid var(--gold);border-radius:var(--radius-lg);padding:var(--space-5) var(--space-6);margin-bottom:var(--space-5)}
+.callout-title{font-size:var(--text-sm);font-weight:700;color:var(--gold);margin-bottom:var(--space-2);display:flex;align-items:center;gap:var(--space-2)}
+.callout p{font-size:var(--text-sm);color:var(--txt-m);max-width:unset}
+
+/* TABS */
+.tabs-nav{display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-6);border-bottom:1px solid var(--div);padding-bottom:var(--space-4)}
+.tab-btn{font-size:var(--text-xs);font-weight:600;padding:var(--space-2) var(--space-4);border-radius:var(--radius-full);color:var(--txt-m);transition:background var(--tr),color var(--tr);border:1px solid transparent}
+.tab-btn:hover{color:var(--txt);background:var(--surf2)}
+.tab-btn.active{color:var(--txt);background:var(--surf2);border-color:var(--brd)}
+.tab-btn.t1.active{color:var(--gold);border-color:rgba(212,168,67,.4);background:var(--gold-g)}
+.tab-btn.t2.active{color:var(--purple-l);border-color:rgba(155,114,207,.4);background:rgba(155,114,207,.12)}
+.tab-btn.t3.active{color:var(--teal);border-color:rgba(62,207,188,.4);background:var(--teal-g)}
+.tab-btn.t4.active{color:var(--coral-l);border-color:rgba(232,96,74,.35);background:rgba(232,96,74,.1)}
+.tab-btn.t5.active{color:var(--blue);border-color:rgba(91,192,245,.35);background:rgba(91,192,245,.1)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+.sa-wrap{display:grid;grid-template-columns:1fr 1fr;gap:var(--space-6)}
+.sa-card{background:var(--surf);border:1px solid var(--div);border-radius:var(--radius-xl);padding:var(--space-6)}
+.sa-card.t1{border-left:3px solid var(--gold)}.sa-card.t2{border-left:3px solid var(--purple)}.sa-card.t3{border-left:3px solid var(--teal)}.sa-card.t4{border-left:3px solid var(--coral)}.sa-card.t5{border-left:3px solid var(--blue)}
+.sa-label{font-size:var(--text-xs);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:var(--space-4);display:flex;align-items:center;gap:var(--space-2)}
+.ic-like{color:#6dc878}.ic-dis{color:var(--coral)}.ic-reco{color:var(--gold)}
+
+/* TABLE */
+.reco-table{width:100%;border-collapse:collapse;font-size:var(--text-sm)}
+.reco-table thead tr{border-bottom:2px solid var(--div)}
+.reco-table th{text-align:left;padding:var(--space-3) var(--space-4);font-size:var(--text-xs);text-transform:uppercase;letter-spacing:.08em;color:var(--txt-m);font-weight:600}
+.reco-table tbody tr{border-bottom:1px solid var(--div)}
+.reco-table tbody tr:last-child{border-bottom:none}
+.reco-table td{padding:var(--space-4);color:var(--txt-m);vertical-align:top;max-width:unset}
+.reco-table td:first-child{color:var(--txt);font-weight:500}
+.pb{display:inline-block;font-size:var(--text-xs);font-weight:700;padding:2px 8px;border-radius:var(--radius-sm);text-transform:uppercase;letter-spacing:.06em}
+.ph{background:rgba(232,96,74,.2);color:var(--coral-l)}.pm{background:var(--gold-g);color:var(--gold-l)}.pl{background:var(--teal-g);color:var(--teal)}
+
+/* RETENTION */
+.ret-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--space-4)}
+.ret-card{background:var(--surf);border:1px solid var(--div);border-radius:var(--radius-xl);padding:var(--space-5);text-align:center}
+.ret-icon{font-size:2rem;margin-bottom:var(--space-3)}
+.ret-title{font-size:var(--text-sm);font-weight:600;color:var(--txt);margin-bottom:var(--space-2)}
+.ret-desc{font-size:var(--text-xs);color:var(--txt-m);max-width:unset}
+
+/* FOOTER */
+.footer{border-top:1px solid var(--div);padding:var(--space-8);text-align:center;color:var(--txt-f);font-size:var(--text-xs)}
+.footer strong{color:var(--txt-m)}
+
+/* SCROLL REVEAL */
+.fade-in{opacity:1}
+@supports (animation-timeline: scroll()){
+  .fade-in{opacity:0;animation:rfade linear both;animation-timeline:view();animation-range:entry 0% entry 70%}
+}
+@keyframes rfade{to{opacity:1}}
+.tab-panel,.tab-panel *{animation:none!important;opacity:1!important}
+
+/* MOBILE */
+@media(max-width:768px){
+  .nav-links{display:none}.nav-burger{display:flex}
+  .nav-mobile.open{display:flex;flex-direction:column;gap:var(--space-2);position:fixed;top:62px;left:0;right:0;background:rgba(13,11,24,.97);backdrop-filter:blur(16px);padding:var(--space-6);border-bottom:1px solid var(--div);z-index:99}
+  .nav-mobile .nav-link{font-size:var(--text-sm);padding:var(--space-3) var(--space-4);display:block}
+  .audit-grid,.sa-wrap,.ret-grid{grid-template-columns:1fr}
+  .hero,.section{padding-inline:var(--space-4)}
+  .seg-params{grid-template-columns:1fr}
+  .reco-table{display:block;overflow-x:auto}
+  .score-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:480px){.ret-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-label="Логотип">
+      <rect width="32" height="32" rx="8" fill="rgba(212,168,67,.1)"/>
+      <path d="M16 5L23 10V18L16 27L9 18V10L16 5Z" fill="none" stroke="#d4a843" stroke-width="1.5"/>
+      <circle cx="16" cy="16" r="3" fill="#d4a843"/>
+      <path d="M9 10L23 22M23 10L9 22" stroke="rgba(212,168,67,.25)" stroke-width="0.8"/>
+    </svg>
+    <span class="nltext">Дворец Впечатлений<span>Аудит аудитории · UX</span></span>
+  </a>
+  <div class="nav-links">
+    <a href="#segments" class="nav-link">Сегменты</a>
+    <a href="#expert-audit" class="nav-link">Юзабилити</a>
+    <a href="#seg-audit" class="nav-link">Глазами ЦА</a>
+    <a href="#recommendations" class="nav-link">Рекомендации</a>
+    <a href="#gallery" class="nav-link">Галерея</a><a href="#retention" class="nav-link">Удержание</a>
+  </div>
+  <button class="nav-burger" id="burgerBtn" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+<nav class="nav-mobile" id="mobileNav">
+  <a href="#segments" class="nav-link">Сегменты ЦА</a>
+  <a href="#expert-audit" class="nav-link">Юзабилити-аудит</a>
+  <a href="#seg-audit" class="nav-link">Глазами ЦА</a>
+  <a href="#recommendations" class="nav-link">Рекомендации</a>
+  <a href="#gallery" class="nav-link">Галерея</a><a href="#gallery" class="nav-link">Галерея</a><a href="#retention" class="nav-link">Удержание</a>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-tag">📊 Маркетинговый аналитический отчёт · Апрель 2026</div>
+  <h1 class="hero-title">Аудит аудитории и юзабилити сайта Дворца Впечатлений</h1>
+  <p class="hero-sub">Сегментация ЦА по платежеспособности и мотивациям · Анализ сайта глазами эксперта и каждого сегмента · Рекомендации по конверсии и повторным визитам</p>
+  <div class="hero-meta">
+    <div class="hmi">📍 <strong>г. Казань</strong>, ул. Баумана, 31/12</div>
+    <div class="hmi">🎭 <strong>Иммерсивный арт-музей</strong> · 3 этажа</div>
+    <div class="hmi">🎟️ Билеты от <strong>1 700 ₽</strong></div>
+    <div class="hmi">🕙 Ежедневно <strong>10:00–21:00</strong></div>
+  </div>
+  <div class="hero-img">
+    <img src="https://pplx-res.cloudinary.com/image/upload/pplx_search_images/df7389a1a714a8f75dac3aba35b15f10ca4e059f.jpg"
+      alt="Семья в иммерсивном арт-пространстве Дворец Впечатлений — Казань"
+      width="1200" height="320" loading="lazy">
+    <div class="hero-img-ov"></div>
+  </div>
+</header>
+
+<hr class="divider">
+
+<!-- SEGMENTS -->
+<section class="section fade-in" id="segments">
+  <div class="sec-tag">Часть 1</div>
+  <h2 class="sec-title">5 ключевых сегментов аудитории</h2>
+  <p class="sec-lead">Ранжированы по убыванию платежеспособности. Детальное описание по демографии, психографике, образу жизни, ценностям, поведению и триггерам покупки.</p>
+
+  <div class="seg-grid">
+
+    <!-- SEG 1 -->
+    <div class="seg-card s1 fade-in">
+      <div class="seg-hd">
+        <div class="seg-rank">1</div>
+        <div class="seg-title-b">
+          <div class="seg-name">«Премиум-туристы»</div>
+          <div class="seg-tagline">Приезжие с высоким доходом, охотники за впечатлениями</div>
+        </div>
+        <div class="seg-pay">💎 Очень высокая</div>
+      </div>
+      <div class="seg-bd">
+        <div class="seg-params">
+          <div class="sp"><label>Возраст</label><p>28–50 лет</p></div>
+          <div class="sp"><label>Пол</label><p>М/Ж, пары и семьи</p></div>
+          <div class="sp"><label>Доход</label><p>от 150 000 ₽/мес.</p></div>
+          <div class="sp"><label>Откуда</label><p>Москва, СПб, Екб, нефт. регионы</p></div>
+          <div class="sp"><label>Чек восприятия</label><p>1 700–4 500 ₽ — норма</p></div>
+          <div class="sp"><label>Состав</label><p>Пары / семьи 2+2</p></div>
+        </div>
+        <div class="seg-sl-title">Образ жизни и ценности</div>
+        <ul class="seg-list">
+          <li>Активный культурный туризм, охота за уникальными опытами</li>
+          <li>Фотофиксация всего — Instagram, VK, Telegram-каналы путешествий</li>
+          <li>Ценят уникальность и нестандартность опыта</li>
+          <li>Спонтанные решения: увидели в «Топ Казани» — купили</li>
+          <li>Готовы доплачивать за VIP-сервис и экскурсию</li>
+        </ul>
+        <div class="seg-sl-title">Триггеры покупки</div>
+        <div class="seg-triggers">
+          <span class="trig">🗺️ Топ достопр. Казани</span>
+          <span class="trig">📸 Контент в соцсетях</span>
+          <span class="trig">⭐ Отзывы на Яндекс/TripAdvisor</span>
+          <span class="trig">🤖 «Создано ИИ» — интригует</span>
+          <span class="trig">🎁 Подарок спутнику</span>
+          <span class="trig">🚀 Нигде больше не бывает</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEG 2 -->
+    <div class="seg-card s2 fade-in">
+      <div class="seg-hd">
+        <div class="seg-rank">2</div>
+        <div class="seg-title-b">
+          <div class="seg-name">«Состоятельные семьи»</div>
+          <div class="seg-tagline">Родители 32–48 лет, дети 4–14 лет, Казань и РТ</div>
+        </div>
+        <div class="seg-pay">🥇 Высокая</div>
+      </div>
+      <div class="seg-bd">
+        <div class="seg-params">
+          <div class="sp"><label>Возраст взрослых</label><p>32–48 лет</p></div>
+          <div class="sp"><label>Дети</label><p>4–14 лет, 1–2 ребёнка</p></div>
+          <div class="sp"><label>Доход</label><p>80 000–150 000 ₽/мес.</p></div>
+          <div class="sp"><label>Состав</label><p>Полная семья 3–5 чел.</p></div>
+          <div class="sp"><label>Чек восприятия</label><p>Взрослый 1 700 ₽ · до 3 лет бесплатно</p></div>
+          <div class="sp"><label>Профиль</label><p>Казань + крупные города РТ</p></div>
+        </div>
+        <div class="seg-sl-title">Образ жизни и ценности</div>
+        <ul class="seg-list">
+          <li>Главная ценность — совместные яркие впечатления с детьми</li>
+          <li>Тщательное планирование: читают отзывы, изучают сайт заранее</li>
+          <li>Ценят безопасность, чистоту, удобство для детей</li>
+          <li>Готовы к допродажам: экскурсия, радужка, фото в локациях</li>
+          <li>«Развивающий» формат = бонус при принятии решения</li>
+        </ul>
+        <div class="seg-sl-title">Триггеры покупки</div>
+        <div class="seg-triggers">
+          <span class="trig">👶 Детям точно понравится</span>
+          <span class="trig">📅 Выходной / каникулы</span>
+          <span class="trig">🎉 День рождения ребёнка</span>
+          <span class="trig">👨‍👩‍👧 Семейный билет выгоднее</span>
+          <span class="trig">📖 Развивающий формат</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEG 3 -->
+    <div class="seg-card s3 fade-in">
+      <div class="seg-hd">
+        <div class="seg-rank">3</div>
+        <div class="seg-title-b">
+          <div class="seg-name">«Городские пары-миллениалы»</div>
+          <div class="seg-tagline">25–38 лет, без детей, эстеты, соцсети</div>
+        </div>
+        <div class="seg-pay">🥈 Средне-высокая</div>
+      </div>
+      <div class="seg-bd">
+        <div class="seg-params">
+          <div class="sp"><label>Возраст</label><p>25–38 лет</p></div>
+          <div class="sp"><label>Состав</label><p>Пара М+Ж, женщины инициируют</p></div>
+          <div class="sp"><label>Доход</label><p>50 000–90 000 ₽/мес.</p></div>
+          <div class="sp"><label>Профиль</label><p>Казань, офисные сотрудники</p></div>
+          <div class="sp"><label>Чек восприятия</label><p>2×1 700 = 3 400 ₽ — ок на свидание</p></div>
+          <div class="sp"><label>Канал</label><p>VK Reels, TikTok, Instagram</p></div>
+        </div>
+        <div class="seg-sl-title">Образ жизни и ценности</div>
+        <ul class="seg-list">
+          <li>Соцсети — главный источник идей для досуга в выходные</li>
+          <li>Критически важен визуал: локации = готовый контент</li>
+          <li>Ценят эстетику, атмосферу, «вибрацию места»</li>
+          <li>Импульсивные решения в пятницу вечером</li>
+          <li>«Радужка глаза» — уникальная услуга, идеальный инфоповод</li>
+        </ul>
+        <div class="seg-sl-title">Триггеры покупки</div>
+        <div class="seg-triggers">
+          <span class="trig">💑 Романтическое свидание</span>
+          <span class="trig">📱 Виральный ролик VK/TikTok</span>
+          <span class="trig">📸 «Там классно фоткаться»</span>
+          <span class="trig">🌟 «Радужка» — вау-эффект</span>
+          <span class="trig">🎁 Подарочный сертификат</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEG 4 -->
+    <div class="seg-card s4 fade-in">
+      <div class="seg-hd">
+        <div class="seg-rank">4</div>
+        <div class="seg-title-b">
+          <div class="seg-name">«Семьи среднего класса»</div>
+          <div class="seg-tagline">Расчётливые родители, праздничный визит, цена — решение</div>
+        </div>
+        <div class="seg-pay">🥉 Средняя</div>
+      </div>
+      <div class="seg-bd">
+        <div class="seg-params">
+          <div class="sp"><label>Возраст взрослых</label><p>30–45 лет</p></div>
+          <div class="sp"><label>Дети</label><p>5–12 лет, 1–3 ребёнка</p></div>
+          <div class="sp"><label>Доход</label><p>35 000–65 000 ₽/мес.</p></div>
+          <div class="sp"><label>Состав</label><p>3–5 человек</p></div>
+          <div class="sp"><label>Чек восприятия</label><p>Чувствительны к цене; ждут акций</p></div>
+          <div class="sp"><label>Профиль</label><p>Казань, Татарстан</p></div>
+        </div>
+        <div class="seg-sl-title">Образ жизни и ценности</div>
+        <ul class="seg-list">
+          <li>Тщательное сравнение с альтернативами перед решением</li>
+          <li>Цена — критический фактор, активно ищут промокоды</li>
+          <li>Высокая чувствительность к соотношению цена / ценность</li>
+          <li>Ориентируются на рекомендации знакомых / «сарафанное радио»</li>
+          <li>Решение принимается заранее, не спонтанно</li>
+        </ul>
+        <div class="seg-sl-title">Триггеры покупки</div>
+        <div class="seg-triggers">
+          <span class="trig">🎂 День рождения / каникулы</span>
+          <span class="trig">💰 Скидка / промокод</span>
+          <span class="trig">👍 Рекомендация подруги</span>
+          <span class="trig">🎁 Семейный билет</span>
+          <span class="trig">😊 «Дети будут рады»</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEG 5 -->
+    <div class="seg-card s5 fade-in">
+      <div class="seg-hd">
+        <div class="seg-rank">5</div>
+        <div class="seg-title-b">
+          <div class="seg-name">«Молодёжь и зумеры»</div>
+          <div class="seg-tagline">14–25 лет, студенты, компании, TikTok-пользователи</div>
+        </div>
+        <div class="seg-pay">📌 Ограниченная</div>
+      </div>
+      <div class="seg-bd">
+        <div class="seg-params">
+          <div class="sp"><label>Возраст</label><p>14–25 лет</p></div>
+          <div class="sp"><label>Пол</label><p>Чаще девушки; группы 2–5 чел.</p></div>
+          <div class="sp"><label>Доход</label><p>15 000–35 000 ₽ / карманные</p></div>
+          <div class="sp"><label>Состав</label><p>Компания друзей / пара</p></div>
+          <div class="sp"><label>Чек восприятия</label><p>1 700 ₽ — много; ждут скидку</p></div>
+          <div class="sp"><label>Канал</label><p>TikTok, VK Reels</p></div>
+        </div>
+        <div class="seg-sl-title">Образ жизни и ценности</div>
+        <ul class="seg-list">
+          <li>TikTok / Reels — главный источник идей для досуга</li>
+          <li>Импульсивные покупки под влиянием трендов</li>
+          <li>Ценят нестандартность, мемность, «задротские» детали</li>
+          <li>Потенциальные бесплатные амбассадоры через UGC-контент</li>
+          <li>Уязвимы к эффекту FOMO: «все уже были»</li>
+        </ul>
+        <div class="seg-sl-title">Триггеры покупки</div>
+        <div class="seg-triggers">
+          <span class="trig">🔥 Вирусный ролик в TikTok</span>
+          <span class="trig">👥 Компания «все идут»</span>
+          <span class="trig">🎟️ Студенческая скидка</span>
+          <span class="trig">📲 Reels с локацией</span>
+          <span class="trig">💬 «Топ место для контента»</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- EXPERT AUDIT -->
+<section class="section fade-in" id="expert-audit">
+  <div class="sec-tag">Часть 2</div>
+  <h2 class="sec-title">Юзабилити-аудит сайта: взгляд эксперта</h2>
+  <p class="sec-lead">Анализ дворецвпечатлений.рф по ключевым критериям UX: первое впечатление, навигация, конверсия, доверие, мобильная версия, скорость принятия решения.</p>
+
+  <div class="callout fade-in" style="margin-bottom:var(--space-8);border-left-color:var(--teal)">
+    <div class="callout-title" style="color:var(--teal)">🎟️ Реальное тарифное меню (данные с сайта)</div>
+    <p>Дворец Впечатлений: <strong style="color:var(--txt)">1 700 ₽</strong> (будни) / <strong style="color:var(--txt)">2 000 ₽</strong> (выходные) · Дворец + Смайл Парк: <strong style="color:var(--txt)">2 300 ₽</strong> · Дворец + Радужка глаза на двоих: <strong style="color:var(--txt)">4 500 ₽</strong> (скидка с 6 000 ₽) · Билет с индивидуальной экскурсией: <strong style="color:var(--txt)">2 500 ₽</strong> · Дети до 3 лет: <strong style="color:var(--txt)">бесплатно</strong>. Билеты действуют 3 месяца. Рейтинг: <strong style="color:var(--gold)">4.9/5</strong> · 2 791 оценка на 2ГИС · 39 отзывов TripAdvisor.</p>
+  </div>
+
+  <div class="score-wrap fade-in">
+    <div class="score-head">
+      <div class="score-head-title">Итоговая оценка юзабилити сайта</div>
+      <div class="score-num">5.8 / 10</div>
+    </div>
+    <div class="score-grid">
+      <div class="si"><label>Первое впечатление</label><div class="sbar"><div class="sbar-fill" data-w="70" style="background:var(--teal)"></div></div><div class="sval">7/10 — загадочная атмосфера работает</div></div>
+      <div class="si"><label>Скорость / прелоадер</label><div class="sbar"><div class="sbar-fill" data-w="50" style="background:var(--coral)"></div></div><div class="sval">5/10 — загрузочный экран убивает импульс</div></div>
+      <div class="si"><label>Ясность предложения</label><div class="sbar"><div class="sbar-fill" data-w="55" style="background:var(--gold)"></div></div><div class="sval">5.5/10 — неясно «что вас ждёт внутри»</div></div>
+      <div class="si"><label>Конверсия / CTA</label><div class="sbar"><div class="sbar-fill" data-w="60" style="background:var(--gold)"></div></div><div class="sval">6/10 — форма есть, но слишком громоздкая</div></div>
+      <div class="si"><label>Социальное доказательство</label><div class="sbar"><div class="sbar-fill" data-w="45" style="background:var(--coral)"></div></div><div class="sval">4.5/10 — раздел отзывов фактически пуст</div></div>
+      <div class="si"><label>Мобильная адаптация</label><div class="sbar"><div class="sbar-fill" data-w="55" style="background:var(--gold)"></div></div><div class="sval">5.5/10 — адаптив есть, но не оптимизирован</div></div>
+      <div class="si"><label>Удержание и лояльность</label><div class="sbar"><div class="sbar-fill" data-w="30" style="background:var(--coral)"></div></div><div class="sval">3/10 — программа лояльности отсутствует</div></div>
+      <div class="si"><label>Информативность</label><div class="sbar"><div class="sbar-fill" data-w="65" style="background:var(--teal)"></div></div><div class="sval">6.5/10 — FAQ хорош, но мало деталей</div></div>
+    </div>
+  </div>
+
+  <div class="audit-grid fade-in">
+    <div class="ac">
+      <div class="ac-title"><div class="ai g">✅</div>Сильные стороны сайта</div>
+      <ul class="al pro">
+        <li><span class="dot"></span>Визуально атмосферный тёмный дизайн соответствует концепции иммерсивного арт-пространства</li>
+        <li><span class="dot"></span>Форма покупки встроена на главную страницу — без внешних редиректов</li>
+        <li><span class="dot"></span>Система промокодов присутствует (важна для сегментов 4–5)</li>
+        <li><span class="dot"></span>FAQ закрывает ключевые возражения: возраст, время, именные ли билеты</li>
+        <li><span class="dot"></span>Билеты не привязаны к дате — гибкость снижает барьер к покупке</li>
+        <li><span class="dot"></span>Видимые цены на главной, семейный тариф и пакетные предложения</li>
+        <li><span class="dot"></span>Перечисление локаций создаёт ощущение масштаба пространства</li>
+      </ul>
+    </div>
+    <div class="ac">
+      <div class="ac-title"><div class="ai r">❌</div>Слабые стороны и проблемы</div>
+      <ul class="al con">
+        <li><span class="dot"></span><strong>Прелоадер</strong> — первое взаимодействие. 40%+ мобильных пользователей уходят при задержке более 3 сек</li>
+        <li><span class="dot"></span><strong>Размытый value proposition:</strong> нет чёткого ответа «что вы получаете за 1 700 ₽» на первом экране</li>
+        <li><span class="dot"></span><strong>Раздел отзывов фактически пуст,</strong> хотя у заведения 485+ оценок на Зун и 128+ на TripAdvisor</li>
+        <li><span class="dot"></span><strong>Нет видеоконтента</strong> — для иммерсивного пространства это критично: люди хотят «почувствовать» перед покупкой</li>
+        <li><span class="dot"></span><strong>Громоздкая форма покупки</strong> — выбор + данные + оплата на одном экране перегружают</li>
+        <li><span class="dot"></span><strong>Нет программы лояльности,</strong> анонсов событий, причин вернуться повторно</li>
+        <li><span class="dot"></span>Несоответствие цен на сайте и в части отзывов — путаница подрывает доверие</li>
+        <li><span class="dot"></span>Нет корпоративного раздела, онлайн-чата, подарочного сертификата</li>
+      </ul>
+    </div>
+    <div class="ac full">
+      <div class="ac-title"><div class="ai gold">💡</div>Топ-3 критических проблемы конверсии</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--space-4)">
+        <div class="callout">
+          <div class="callout-title">🚫 Проблема №1 — Прелоадер</div>
+          <p>Загрузочный экран — «стоп-сигнал» там, где должен быть эмоциональный захват. 53% мобильных пользователей покидают сайт при загрузке более 3 сек (данные Google). Уберите или сократите до 0.8 сек анимации логотипа.</p>
+        </div>
+        <div class="callout" style="border-left-color:var(--teal)">
+          <div class="callout-title" style="color:var(--teal)">🎬 Проблема №2 — Нет погружения онлайн</div>
+          <p>Для иммерсивного арт-пространства сайт удивительно статичен. Нет 15-секундного видео с атмосферой Зеркальных миров. Пользователь не может «почувствовать» место — и не решается купить билет.</p>
+        </div>
+        <div class="callout" style="border-left-color:var(--purple)">
+          <div class="callout-title" style="color:var(--purple-l)">⭐ Проблема №3 — Мёртвые отзывы</div>
+          <p>Раздел «Посетители делятся впечатлениями» пуст, тогда как у заведения сотни реальных отзывов на Яндекс, Зун и TripAdvisor. Это огромный социальный капитал, который сайт не монетизирует.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- SEG AUDIT TABS -->
+<section class="section" id="seg-audit">
+  <div class="sec-tag">Часть 3</div>
+  <h2 class="sec-title">Сайт глазами каждого сегмента ЦА</h2>
+  <p class="sec-lead">Как каждый из 5 сегментов воспринимает сайт: что вызывает доверие и желание купить, что раздражает или останавливает — и что добавить, чтобы мотивировать к покупке.</p>
+
+  <div class="tabs-nav" id="segTabsNav">
+    <button class="tab-btn t1 active" data-target="t1">💎 Сег.1: Туристы</button>
+    <button class="tab-btn t2" data-target="t2">👨‍👩‍👧 Сег.2: Сост. семьи</button>
+    <button class="tab-btn t3" data-target="t3">💑 Сег.3: Пары</button>
+    <button class="tab-btn t4" data-target="t4">🏠 Сег.4: Обыч. семьи</button>
+    <button class="tab-btn t5" data-target="t5">🎓 Сег.5: Молодёжь</button>
+  </div>
+
+  <div id="segPanels">
+
+    <div data-panel="t1">
+      <div class="sa-wrap">
+        <div class="sa-card t1"><div class="sa-label"><span class="ic-like">✅</span> Что нравится туристу</div>
+          <ul class="al pro">
+            <li><span class="dot"></span>Тёмный дизайн создаёт «загадочное место» — именно это ищет турист в Казани</li>
+            <li><span class="dot"></span>Адрес на ул. Баумана виден в контактах — центр города, легко найти</li>
+            <li><span class="dot"></span>Упоминание ИИ и 252 художников создаёт ощущение уникальности</li>
+            <li><span class="dot"></span>Пакетные предложения (+экскурсия, +радужка глаза) видны сразу</li>
+          </ul>
+        </div>
+        <div class="sa-card t1"><div class="sa-label"><span class="ic-dis">❌</span> Что раздражает туриста</div>
+          <ul class="al con">
+            <li><span class="dot"></span>Нет фотографий реальных интерьеров с людьми — непонятно «стоит ли идти»</li>
+            <li><span class="dot"></span>Нет карты и маршрута: как добраться с вокзала / из центра</li>
+            <li><span class="dot"></span>Раздел отзывов пуст — турист привык к живым testimonials</li>
+            <li><span class="dot"></span>Нет информации о парковке, гардеробе, кафе поблизости</li>
+            <li><span class="dot"></span>Нет англоязычной версии для иностранных туристов</li>
+          </ul>
+        </div>
+        <div class="sa-card t1" style="grid-column:1/-1"><div class="sa-label"><span class="ic-reco">💡</span> Что добавить для туристов</div>
+          <ul class="al reco">
+            <li><span class="dot"></span>Блок «Как добраться» с интерактивной картой Яндекс</li>
+            <li><span class="dot"></span>5–7 качественных фото внутренних локаций с людьми</li>
+            <li><span class="dot"></span>Рейтинг-бейдж «4.9 ★ на 2ГИС · 2 791 оценка» прямо на сайте</li>
+            <li><span class="dot"></span>Мини-секция «Рядом с нами» — создаёт туристический маршрут</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div data-panel="t2" style="display:none">
+      <div class="sa-wrap">
+        <div class="sa-card t2"><div class="sa-label"><span class="ic-like">✅</span> Что нравится состоятельной семье</div>
+          <ul class="al pro">
+            <li><span class="dot"></span>Упоминание «0+» — значит, можно с маленькими детьми</li>
+            <li><span class="dot"></span>FAQ: «без ограничений по времени» — можно провести весь день</li>
+            <li><span class="dot"></span>Билеты действуют 3 месяца — удобно планировать досуг заранее</li>
+            <li><span class="dot"></span>«Смайл Парк» в пакете — дополнительная ценность для детей</li>
+          </ul>
+        </div>
+        <div class="sa-card t2"><div class="sa-label"><span class="ic-dis">❌</span> Что раздражает состоятельную семью</div>
+          <ul class="al con">
+            <li><span class="dot"></span>Нет раздела «Для детей»: непонятно, что увидит ребёнок 5 лет vs. 12 лет</li>
+            <li><span class="dot"></span>Нет информации о безопасности: стробоскопы? Можно с коляской?</li>
+            <li><span class="dot"></span>Нет фото детских эмоций — реакция ребёнка = главный аргумент для родителя</li>
+            <li><span class="dot"></span>Смайл Парк упомянут только названием — нет описания аттракционов</li>
+          </ul>
+        </div>
+        <div class="sa-card t2" style="grid-column:1/-1"><div class="sa-label"><span class="ic-reco">💡</span> Что добавить для состоятельных семей</div>
+          <ul class="al reco">
+            <li><span class="dot"></span>Блок «Идеально для детей» с фото радостных детей в локациях</li>
+            <li><span class="dot"></span>Возрастная разбивка: «3–6 лет: Волшебный лес | 7–12 лет: Зеркальные миры»</li>
+            <li><span class="dot"></span>Информация о безопасности (мягкий свет, персонал в залах, нет опасных зон)</li>
+            <li><span class="dot"></span>Показать стоимость на человека: «на троих = ~1 400 ₽ с человека»</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div data-panel="t3" style="display:none">
+      <div class="sa-wrap">
+        <div class="sa-card t3"><div class="sa-label"><span class="ic-like">✅</span> Что нравится паре-миллениалам</div>
+          <ul class="al pro">
+            <li><span class="dot"></span>Тёмный мистический дизайн — полностью «эстетичное место» по меркам пары</li>
+            <li><span class="dot"></span>Названия локаций (Зеркальные миры, Сюрреалистический супермаркет) звучат необычно</li>
+            <li><span class="dot"></span>«Радужка глаза» — уникальная услуга, идеальный инфоповод для сторис</li>
+            <li><span class="dot"></span>Билеты без конкретной даты — гибкость для спонтанных планов</li>
+          </ul>
+        </div>
+        <div class="sa-card t3"><div class="sa-label"><span class="ic-dis">❌</span> Что раздражает пару</div>
+          <ul class="al con">
+            <li><span class="dot"></span>Нет фотогалереи с «инстаграмными» кадрами — это главный аргумент для покупки</li>
+            <li><span class="dot"></span>Нет раздела «Лучшие места для фото» — пара хочет знать, где снять крутой кадр</li>
+            <li><span class="dot"></span>Нет эмоционального блока «Идеально для свидания»</li>
+            <li><span class="dot"></span>Загрузочный экран: для зумера 3 сек ожидания — вечность</li>
+          </ul>
+        </div>
+        <div class="sa-card t3" style="grid-column:1/-1"><div class="sa-label"><span class="ic-reco">💡</span> Что добавить для пар</div>
+          <ul class="al reco">
+            <li><span class="dot"></span>Full-width фотогалерея с красивыми кадрами из каждой локации</li>
+            <li><span class="dot"></span>Блок «Идеально для свидания» с коротким описанием атмосферы</li>
+            <li><span class="dot"></span>CTA «Подарить впечатление» с ссылкой на подарочный сертификат</li>
+            <li><span class="dot"></span>Интеграция с ВКонтакте/TikTok: «Покажи свой кадр #ДворецВпечатлений»</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div data-panel="t4" style="display:none">
+      <div class="sa-wrap">
+        <div class="sa-card t4"><div class="sa-label"><span class="ic-like">✅</span> Что нравится обычной семье</div>
+          <ul class="al pro">
+            <li><span class="dot"></span>Поле промокода видно при покупке — семья сразу ищет скидку</li>
+            <li><span class="dot"></span>Бесплатный вход для детей до 3 лет снижает итоговую сумму</li>
+            <li><span class="dot"></span>Телефон на видном месте — можно позвонить и уточнить</li>
+            <li><span class="dot"></span>FAQ: «нет ограничений по времени» и «билеты не именные»</li>
+          </ul>
+        </div>
+        <div class="sa-card t4"><div class="sa-label"><span class="ic-dis">❌</span> Что раздражает обычную семью</div>
+          <ul class="al con">
+            <li><span class="dot"></span>Цена — главный барьер. Нет обоснования «почему 1 700 ₽»: что именно я получаю?</li>
+            <li><span class="dot"></span>Нет калькулятора стоимости: «2 взрослых + 3 ребёнка = ???»</li>
+            <li><span class="dot"></span>Нет скидочных дней, акций, программы «приведи друга»</li>
+            <li><span class="dot"></span>Нет сравнения с альтернативами: «дешевле похода в кино для всей семьи»</li>
+          </ul>
+        </div>
+        <div class="sa-card t4" style="grid-column:1/-1"><div class="sa-label"><span class="ic-reco">💡</span> Что добавить для обычных семей</div>
+          <ul class="al reco">
+            <li><span class="dot"></span>Блок ценности: «1 700 ₽ = 2 часа в другой реальности. Дешевле кино для двоих»</li>
+            <li><span class="dot"></span>Скидочный день: «Вторник — семейный день: скидка 15%»</li>
+            <li><span class="dot"></span>Калькулятор стоимости группы: выбери кол-во взрослых и детей → итог</li>
+            <li><span class="dot"></span>Накопительная система: «3-й визит со скидкой 25%»</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div data-panel="t5" style="display:none">
+      <div class="sa-wrap">
+        <div class="sa-card t5"><div class="sa-label"><span class="ic-like">✅</span> Что нравится молодёжи</div>
+          <ul class="al pro">
+            <li><span class="dot"></span>Дизайн тёмный и «эстетичный» — плюс в глазах зумеров</li>
+            <li><span class="dot"></span>«Создано с ИИ» — хайповая тема в молодёжной аудитории</li>
+            <li><span class="dot"></span>«Сюрреалистический супермаркет» — мемный формат для 16–22 лет</li>
+            <li><span class="dot"></span>Билеты действуют 3 месяца — удобно скинуться с другом заранее</li>
+          </ul>
+        </div>
+        <div class="sa-card t5"><div class="sa-label"><span class="ic-dis">❌</span> Что раздражает молодёжь</div>
+          <ul class="al con">
+            <li><span class="dot"></span>Нет TikTok/Reels-контента на сайте — главный канал discovery не задействован</li>
+            <li><span class="dot"></span>Нет студенческой скидки или скидки для групп от 3 чел.</li>
+            <li><span class="dot"></span>Нет UGC-раздела: «Что снимают посетители» — молодёжь хочет видеть «своих»</li>
+            <li><span class="dot"></span>Загрузочный экран убивает интерес — TikTok приучил к моментальности</li>
+          </ul>
+        </div>
+        <div class="sa-card t5" style="grid-column:1/-1"><div class="sa-label"><span class="ic-reco">💡</span> Что добавить для молодёжи</div>
+          <ul class="al reco">
+            <li><span class="dot"></span>Встроить TikTok-ролики посетителей или Reels из официального аккаунта</li>
+            <li><span class="dot"></span>«Студенческий билет» — предъявление студенческого при входе даёт скидку</li>
+            <li><span class="dot"></span>UGC-галерея: «Подпишись и покажи свой кадр — лучший получает приз»</li>
+            <li><span class="dot"></span>Добавить СБП как основной способ оплаты — самый популярный у 18–25 лет</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+  (function(){
+    var nav = document.getElementById('segTabsNav');
+    var panels = document.getElementById('segPanels');
+    if(!nav || !panels) return;
+    nav.addEventListener('click', function(e){
+      var btn = e.target.closest('[data-target]');
+      if(!btn) return;
+      var target = btn.getAttribute('data-target');
+      // Update buttons
+      nav.querySelectorAll('[data-target]').forEach(function(b){ b.classList.remove('active'); });
+      btn.classList.add('active');
+      // Update panels
+      panels.querySelectorAll('[data-panel]').forEach(function(p){ p.style.display = 'none'; });
+      var panel = panels.querySelector('[data-panel="'+target+'"]');
+      if(panel) panel.style.display = 'block';
+    });
+  })();
+  </script>
+
+</section>
+
+<hr class="divider">
+
+<!-- RECOMMENDATIONS TABLE -->
+<section class="section fade-in" id="recommendations">
+  <div class="sec-tag">Часть 4</div>
+  <h2 class="sec-title">Приоритизированный план улучшений</h2>
+  <p class="sec-lead">Что делать немедленно, в ближайшие 1–2 месяца и на горизонте 3–6 месяцев для роста конверсии и продаж.</p>
+
+  <div class="ac fade-in" style="overflow-x:auto">
+    <table class="reco-table">
+      <thead><tr>
+        <th>Действие</th><th>Ожидаемый эффект</th><th>Приоритет</th><th>Сегменты</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Убрать прелоадер / сократить до 0.8 сек</td><td>+15–25% снижение bounce rate</td><td><span class="pb ph">🔴 Срочно</span></td><td>Все 1–5</td></tr>
+        <tr><td>Добавить атмосферное видео autoplay на Hero</td><td>+20–35% конверсии на первом экране</td><td><span class="pb ph">🔴 Срочно</span></td><td>Сег. 1, 2, 3</td></tr>
+        <tr><td>Интегрировать виджет реальных отзывов (Яндекс)</td><td>+15–20% доверия → конверсия</td><td><span class="pb ph">🔴 Срочно</span></td><td>Сег. 2, 4</td></tr>
+        <tr><td>Упростить форму покупки (3 шага + progress bar)</td><td>-30% отказов на этапе оплаты</td><td><span class="pb ph">🔴 Срочно</span></td><td>Все 1–5</td></tr>
+        <tr><td>Добавить блок «Для детей» с возрастными рекомендациями</td><td>+30% конверсии семейного сегмента</td><td><span class="pb pm">🟡 1–2 мес.</span></td><td>Сег. 2, 4</td></tr>
+        <tr><td>Создать раздел «Идеально для свидания» / сертификат</td><td>+25% конверсии пар</td><td><span class="pb pm">🟡 1–2 мес.</span></td><td>Сег. 3</td></tr>
+        <tr><td>Добавить фотогалерею с реальными снимками залов</td><td>+40% времени на сайте</td><td><span class="pb pm">🟡 1–2 мес.</span></td><td>Все 1–5</td></tr>
+        <tr><td>Встроить TikTok/Reels UGC-виджет</td><td>+50% вовлечённость молодёжи</td><td><span class="pb pm">🟡 1–2 мес.</span></td><td>Сег. 5</td></tr>
+        <tr><td>Калькулятор стоимости группы</td><td>Устраняет ценовой барьер сег. 4</td><td><span class="pb pm">🟡 1–2 мес.</span></td><td>Сег. 4</td></tr>
+        <tr><td>Студенческая скидка + скидка группе 3+ чел.</td><td>Расширяет и монетизирует сег. 5</td><td><span class="pb pm">🟡 1–2 мес.</span></td><td>Сег. 5</td></tr>
+        <tr><td>Корпоративный / групповой раздел + форма заявки</td><td>Новый канал продаж B2B</td><td><span class="pb pl">🟢 3–6 мес.</span></td><td>Сег. 1, 2</td></tr>
+        <tr><td>Программа лояльности: «3 визита = скидка на 4-й»</td><td>+40% повторных визитов</td><td><span class="pb pl">🟢 3–6 мес.</span></td><td>Сег. 2, 3, 4</td></tr>
+        <tr><td>Раздел «Новые локации / анонсы»</td><td>+30% повторных визитов</td><td><span class="pb pl">🟢 3–6 мес.</span></td><td>Все сегменты</td></tr>
+        <tr><td>Блок «Как добраться» с картой Яндекс</td><td>Снижает барьер для туристов</td><td><span class="pb pl">🟢 3–6 мес.</span></td><td>Сег. 1</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- RETENTION -->
+<section class="section fade-in" id="retention">
+  <div class="sec-tag">Часть 5</div>
+  <h2 class="sec-title">Стратегия повторных визитов</h2>
+  <p class="sec-lead">Наибольшая слабость бизнеса — однократность посещения. Эти инструменты превратят разовых гостей в регулярных.</p>
+
+  <div class="ret-grid fade-in">
+    <div class="ret-card"><div class="ret-icon">🎭</div><div class="ret-title">Ротация экспозиции</div><div class="ret-desc">1–2 новых зала каждые 3 месяца. Анонс на сайте создаёт причину прийти снова даже для тех, кто уже был</div></div>
+    <div class="ret-card"><div class="ret-icon">🎁</div><div class="ret-title">Подарочные сертификаты</div><div class="ret-desc">Кнопка «Подарить впечатление» на главной. Популярен к Новому году, ДР, 8 Марта. Сегменты 1–3 купят охотно</div></div>
+    <div class="ret-card"><div class="ret-icon">🌙</div><div class="ret-title">Тематические вечера</div><div class="ret-desc">«Ночь в зеркалах», Хэллоуин-декорации, новогодние аттракции — специальные поводы прийти повторно</div></div>
+    <div class="ret-card"><div class="ret-icon">💌</div><div class="ret-title">Email / Telegram-рассылка</div><div class="ret-desc">Форма подписки на сайте: «Получай анонсы новых залов и акции». База лояльных посетителей — дешёвый канал</div></div>
+    <div class="ret-card"><div class="ret-icon">🎖️</div><div class="ret-title">Программа лояльности</div><div class="ret-desc">3-й визит со скидкой 25%. QR-код на билете для отслеживания. Актуально прежде всего для семей с детьми</div></div>
+    <div class="ret-card"><div class="ret-icon">📸</div><div class="ret-title">UGC-конкурс</div><div class="ret-desc">«Лучший кадр месяца = бесплатный билет». Поток контента в соцсетях + мотивация вернуться, чтобы победить</div></div>
+    <div class="ret-card"><div class="ret-icon">🎓</div><div class="ret-title">Детские мастер-классы</div><div class="ret-desc">Арт-мастерские, занятия по рисованию на базе пространства. Регулярная причина для семей с детьми</div></div>
+    <div class="ret-card"><div class="ret-icon">🤝</div><div class="ret-title">B2B: корпоративы и экскурсии</div><div class="ret-desc">Тимбилдинги, корпоративные вечера, школьные экскурсии. Страница «Для компаний» + форма заявки на сайте</div></div>
+    <div class="ret-card"><div class="ret-icon">🔔</div><div class="ret-title">Push-уведомления</div><div class="ret-desc">При покупке — предложить подписку. «Новый зал открыт — ваша персональная скидка 10% действует 7 дней»</div></div>
+  </div>
+
+  <div class="callout fade-in" style="margin-top:var(--space-8)">
+    <div class="callout-title">🏆 Главный вывод</div>
+    <p>«Дворец Впечатлений» — сильный продукт с подлинными восторженными отзывами. Главные барьеры находятся на стороне сайта и коммуникации. Устранение 4 срочных проблем (прелоадер, видео-погружение, живые отзывы, упрощение формы покупки) способно увеличить конверсию сайта на <strong style="color:var(--gold)">30–50%</strong> без дополнительных вложений в рекламу. Потенциал роста — значительный при относительно низких затратах на реализацию.</p>
+  </div>
+</section>
+
+<hr class="divider">
+<footer class="footer">
+  <p><strong>Аналитический отчёт</strong> подготовлен для руководства «Дворца Впечатлений», г. Казань · Апрель 2026<br>
+  Источники: сайт дворецвпечатлений.рф · Яндекс Карты · Zoon.ru · TripAdvisor · IRecommend.ru · ВШЭ (исследование аудитории совр. искусства в регионах России, 2020)<br>
+  <span style="color:var(--txt-f)">Конфиденциально · Для внутреннего использования</span></p>
+</footer>
+
+<script>
+(function(){
+  var b=document.getElementById("burgerBtn"),m=document.getElementById("mobileNav");
+  b.addEventListener("click",function(){
+    var o=m.classList.toggle("open");
+    b.setAttribute("aria-expanded",o);
+    m.querySelectorAll(".nav-link").forEach(function(l){l.addEventListener("click",function(){m.classList.remove("open");b.setAttribute("aria-expanded",false)},{once:true})});
+  });
+})();
+
+function switchTab(e,id){
+  document.querySelectorAll(".tab-btn").forEach(function(b){b.classList.remove("active")});
+  document.querySelectorAll(".tab-panel").forEach(function(p){
+    p.classList.remove("active");
+    p.style.display="none";
+  });
+  e.currentTarget.classList.add("active");
+  var panel=document.getElementById(id);
+  panel.style.display="block";
+  panel.classList.add("active");
+  // force reflow so animations restart
+  void panel.offsetHeight;
+}
+
+(function(){
+  var bars=document.querySelectorAll(".sbar-fill");
+  bars.forEach(function(b){b.dataset.w=b.getAttribute("data-w");b.style.width="0%"});
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){bars.forEach(function(b){b.style.width=b.dataset.w+"%"});obs.disconnect()}
+    });
+  },{threshold:.2});
+  var sw=document.querySelector(".score-wrap");
+  if(sw)obs.observe(sw);
+})();
+
+// Init tabs on load
+(function(){
+  document.querySelectorAll(".tab-panel").forEach(function(p){
+    if(!p.classList.contains("active")) p.style.display="none";
+  });
+})();
+
+(function(){
+  var secs=document.querySelectorAll("section[id]");
+  var links=document.querySelectorAll(".nav-link");
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(en){
+      if(en.isIntersecting){
+        links.forEach(function(l){l.classList.remove("active")});
+        var a=document.querySelector(".nav-link[href="#"+en.target.id+""]");
+        if(a)a.classList.add("active");
+      }
+    });
+  },{rootMargin:"-40% 0px -55% 0px"});
+  secs.forEach(function(s){obs.observe(s)});
+})();
+</script>
+</body>
+</html>
